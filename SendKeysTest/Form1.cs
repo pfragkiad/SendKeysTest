@@ -8,13 +8,17 @@ namespace SendKeysTest
         {
             InitializeComponent();
 
-            numericUpDown1.Value = (decimal)WolfSettings.Default.SwapIntervalSeconds;
+            numSwipe.Value = (decimal)WolfSettings.Default.SwipeIntervalSeconds;
+            numUp.Value = (decimal)WolfSettings.Default.UpDurationMs;
+            numDown.Value = (decimal)WolfSettings.Default.DownDurationMs;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            var settings = WolfSettings.Default;
-            settings.SwapIntervalSeconds = (int)numericUpDown1.Value;
+            WolfSettings settings = WolfSettings.Default;
+            settings.SwipeIntervalSeconds = (int)numSwipe.Value;
+            settings.UpDurationMs = (int)numUp.Value;
+            settings.DownDurationMs = (int)numDown.Value;
             settings.Save();
 
             base.OnFormClosing(e);
@@ -27,7 +31,6 @@ namespace SendKeysTest
             if (cancelSource is not null)
             {
                 cancelSource.Cancel();
-                button1.Text = "HACK ROBLOX!";
                 return;
             }
 
@@ -38,32 +41,36 @@ namespace SendKeysTest
                 while (true)
                 {
                     bool done = await UpDown();
-                    if (!done) break;
+                    if (!done)
+                    {
+                        MessageBox.Show("Failed to focus Roblox window", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
 
-                    int swapInterval = (int)numericUpDown1.Value * 1000;
+                    int swapInterval = (int)numSwipe.Value * 1000;
                     await Task.Delay(swapInterval, cancelSource.Token);
                 }
+                button1.Text = "HACK ROBLOX!";
             }
             catch (TaskCanceledException)
             {
-                // ignore
+                button1.Text = "HACK ROBLOX!";
             }
             finally
             {
                 cancelSource = null;
             }
-
         }
 
-        private static async Task<bool> UpDown()
+        private async Task<bool> UpDown()
         {
             if (!KeyPresser.FocusWindow("Roblox"))
                 return false;
 
+            int upDuration = (int)numUp.Value; //600;
+            int downDuration = (int)numDown.Value;//653;
 
-            int upDuration = 600;
             //int downDuration = (int)(upDuration * 1.088);
-            int downDuration = 653;
 
             await KeyPresser.PressKey(Keys.W, upDuration);
             await KeyPresser.PressKey(Keys.S, downDuration);

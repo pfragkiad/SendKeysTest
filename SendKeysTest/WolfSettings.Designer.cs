@@ -26,12 +26,36 @@ namespace SendKeysTest {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("60")]
-        public int SwapIntervalSeconds {
+        public int SwipeIntervalSeconds {
             get {
-                return ((int)(this["SwapIntervalSeconds"]));
+                return ((int)(this["SwipeIntervalSeconds"]));
             }
             set {
-                this["SwapIntervalSeconds"] = value;
+                this["SwipeIntervalSeconds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public int UpDurationMs {
+            get {
+                return ((int)(this["UpDurationMs"]));
+            }
+            set {
+                this["UpDurationMs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("653")]
+        public int DownDurationMs {
+            get {
+                return ((int)(this["DownDurationMs"]));
+            }
+            set {
+                this["DownDurationMs"] = value;
             }
         }
     }

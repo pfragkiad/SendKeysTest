@@ -1,9 +1,15 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SendKeysTest" GeneratedClassName="Se">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SendKeysTest" GeneratedClassName="WolfSettings">
   <Profiles />
   <Settings>
-    <Setting Name="SwapIntervalSeconds" Type="System.Int32" Scope="User">
+    <Setting Name="SwipeIntervalSeconds" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="UpDurationMs" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+    <Setting Name="DownDurationMs" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">653</Value>
     </Setting>
   </Settings>
 </SettingsFile>
