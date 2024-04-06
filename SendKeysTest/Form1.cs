@@ -8,81 +8,96 @@ namespace SendKeysTest
         {
             InitializeComponent();
 
-            numSwipe.Value = (decimal)WolfSettings.Default.SwipeIntervalSeconds;
-            numUp.Value = (decimal)WolfSettings.Default.UpDurationMs;
-            numDown.Value = (decimal)WolfSettings.Default.DownDurationMs;
+            LoadSettings();
+
+            tstStatus.Text = "Stopped";
+
+            tmrNext.Start();
+            tmrNext.Tick += TmrNext_Tick;
+
+            KeyPresser = new KeyPressLoop();
+        }
+        KeyPressLoop KeyPresser { get; }
+
+        private void TmrNext_Tick(object? sender, EventArgs e)
+        {
+            if (!KeyPresser.IsRunning) return;
+            tstStatus.Text = "Next sweep in " + KeyPresser.RemainingTimeUntilNextLoopStartTime!.Value.ToString(@"mm\:ss");
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
+        #region Settings
+        private void SaveSettings()
         {
             WolfSettings settings = WolfSettings.Default;
-            settings.SwipeIntervalSeconds = (int)numSwipe.Value;
+            settings.SweepIntervalSeconds = (int)numSweepInterval.Value;
             settings.UpDurationMs = (int)numUp.Value;
             settings.DownDurationMs = (int)numDown.Value;
             settings.Save();
+        }
+
+
+        private void LoadSettings()
+        {
+            numSweepInterval.Value = (decimal)WolfSettings.Default.SweepIntervalSeconds;
+            numUp.Value = (decimal)WolfSettings.Default.UpDurationMs;
+            numDown.Value = (decimal)WolfSettings.Default.DownDurationMs;
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            SaveSettings();
 
             base.OnFormClosing(e);
         }
 
-        CancellationTokenSource? cancelSource = null;
 
-        private async void button1_Click(object sender, EventArgs e)
+        #endregion
+
+        private async void BtnStart_Click(object sender, EventArgs e)
         {
-            if (cancelSource is not null)
+            if (KeyPresser.IsRunning)
             {
-                cancelSource.Cancel();
+                KeyPresser.CancelLoop();
                 return;
             }
 
-            try
-            {
-                cancelSource = new CancellationTokenSource();
-                button1.Text = "Cancel";
-                while (true)
-                {
-                    bool done = await UpDown();
-                    if (!done)
-                    {
-                        MessageBox.Show("Failed to focus Roblox window", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
-                    }
+            btnStart.Text = "Cancel";
 
-                    int swapInterval = (int)numSwipe.Value * 1000;
-                    await Task.Delay(swapInterval, cancelSource.Token);
-                }
-                button1.Text = "HACK ROBLOX!";
-            }
-            catch (TaskCanceledException)
+            bool done = await KeyPresser.StartMultipleKeysLoop(
+            new Dictionary<Keys, int>
             {
-                button1.Text = "HACK ROBLOX!";
-            }
-            finally
-            {
-                cancelSource = null;
-            }
+                    { Keys.W, (int)numUp.Value },
+                    { Keys.S, (int)numDown.Value }
+            }, (int)numSweepInterval.Value * 1000, "Roblox");
+
+            if (!done)
+                MessageBox.Show("Failed to focus Roblox window", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //else it is cancelled/stopped
+
+            btnStart.Text = "HACK ROBLOX!";
+            tstStatus.Text = "Stopped";
         }
 
-        private async Task<bool> UpDown()
+        #region NumUpDowns value changed events
+
+        private void NumSweepInterval_ValueChanged(object sender, EventArgs e)
         {
-            if (!KeyPresser.FocusWindow("Roblox"))
-                return false;
-
-            int upDuration = (int)numUp.Value; //600;
-            int downDuration = (int)numDown.Value;//653;
-
-            //int downDuration = (int)(upDuration * 1.088);
-
-            await KeyPresser.PressKey(Keys.W, upDuration);
-            await KeyPresser.PressKey(Keys.S, downDuration);
-
-            return true;
+            if (KeyPresser is null) return;
+            KeyPresser.DelayBetweenLoopsInMs = (int)numSweepInterval.Value * 1000;
         }
 
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        private void NumUp_ValueChanged(object sender, EventArgs e)
         {
-            //if key is esc then stop the timer
-            if (e.KeyChar == (char)Keys.Escape)
-                timer1.Enabled = false;
+            if (KeyPresser?.KeyDurationsInMs is null) return;
+            KeyPresser.KeyDurationsInMs[Keys.W] = (int)numUp.Value;
+
         }
+
+        private void NumDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (KeyPresser?.KeyDurationsInMs is null) return;
+            KeyPresser.KeyDurationsInMs[Keys.S] = (int)numDown.Value;
+        }
+
+        #endregion
     }
 }

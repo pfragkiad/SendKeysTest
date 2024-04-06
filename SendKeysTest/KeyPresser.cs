@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SendKeysTest;
 
-public class KeyPresser
+public static class KeyPresser
 {
     [DllImport("USER32.DLL")]
     private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
@@ -27,10 +27,23 @@ public class KeyPresser
         return SetForegroundWindow(window);
     }
 
-    public static async Task PressKey(Keys key, int delayInMs)
+    public static async Task SendKey(Keys key, int delayInMs)
     {
         keybd_event((byte)key, 0, 0, 0);
         await Task.Delay(delayInMs);
         keybd_event((byte)key, 0, 2, 0);
     }
+
+    public static async Task<bool> SendMultipleKeys(
+        IDictionary<Keys, int> keyDurations, string windowCaption)
+    {
+        if (!FocusWindow(windowCaption))
+            return false;
+
+        foreach (var entry in keyDurations)
+            await SendKey(entry.Key, entry.Value);
+
+        return true;
+    }
+
 }

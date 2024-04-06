@@ -29,54 +29,54 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            button1 = new Button();
-            timer1 = new System.Windows.Forms.Timer(components);
+            btnStart = new Button();
             label1 = new Label();
-            numSwipe = new NumericUpDown();
+            numSweepInterval = new NumericUpDown();
             label2 = new Label();
             label3 = new Label();
             numUp = new NumericUpDown();
             numDown = new NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)numSwipe).BeginInit();
+            tmrNext = new System.Windows.Forms.Timer(components);
+            statusStrip1 = new StatusStrip();
+            tstStatus = new ToolStripStatusLabel();
+            ((System.ComponentModel.ISupportInitialize)numSweepInterval).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numUp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDown).BeginInit();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // button1
+            // btnStart
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            button1.Location = new Point(33, 143);
-            button1.Name = "button1";
-            button1.Size = new Size(207, 61);
-            button1.TabIndex = 0;
-            button1.Text = "HACK ROBLOX!";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // timer1
-            // 
-            timer1.Interval = 10000;
+            btnStart.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnStart.Location = new Point(33, 143);
+            btnStart.Name = "btnStart";
+            btnStart.Size = new Size(207, 46);
+            btnStart.TabIndex = 0;
+            btnStart.Text = "HACK ROBLOX!";
+            btnStart.UseVisualStyleBackColor = true;
+            btnStart.Click += BtnStart_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Location = new Point(33, 28);
             label1.Name = "label1";
-            label1.Size = new Size(99, 15);
+            label1.Size = new Size(102, 15);
             label1.TabIndex = 2;
-            label1.Text = "Swipe interval [s]:";
+            label1.Text = "Sweep interval [s]:";
             // 
-            // numSwipe
+            // numSweepInterval
             // 
-            numSwipe.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            numSwipe.Location = new Point(161, 26);
-            numSwipe.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-            numSwipe.Minimum = new decimal(new int[] { 5, 0, 0, 0 });
-            numSwipe.Name = "numSwipe";
-            numSwipe.Size = new Size(79, 23);
-            numSwipe.TabIndex = 3;
-            numSwipe.TextAlign = HorizontalAlignment.Right;
-            numSwipe.Value = new decimal(new int[] { 60, 0, 0, 0 });
+            numSweepInterval.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            numSweepInterval.Location = new Point(161, 26);
+            numSweepInterval.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numSweepInterval.Minimum = new decimal(new int[] { 5, 0, 0, 0 });
+            numSweepInterval.Name = "numSweepInterval";
+            numSweepInterval.Size = new Size(79, 23);
+            numSweepInterval.TabIndex = 3;
+            numSweepInterval.TextAlign = HorizontalAlignment.Right;
+            numSweepInterval.Value = new decimal(new int[] { 60, 0, 0, 0 });
+            numSweepInterval.ValueChanged += NumSweepInterval_ValueChanged;
             // 
             // label2
             // 
@@ -107,6 +107,7 @@
             numUp.TabIndex = 3;
             numUp.TextAlign = HorizontalAlignment.Right;
             numUp.Value = new decimal(new int[] { 600, 0, 0, 0 });
+            numUp.ValueChanged += NumUp_ValueChanged;
             // 
             // numDown
             // 
@@ -119,39 +120,63 @@
             numDown.TabIndex = 3;
             numDown.TextAlign = HorizontalAlignment.Right;
             numDown.Value = new decimal(new int[] { 653, 0, 0, 0 });
+            numDown.ValueChanged += NumDown_ValueChanged;
+            // 
+            // tmrNext
+            // 
+            tmrNext.Interval = 500;
+            // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { tstStatus });
+            statusStrip1.Location = new Point(0, 207);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(281, 22);
+            statusStrip1.TabIndex = 4;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // tstStatus
+            // 
+            tstStatus.Name = "tstStatus";
+            tstStatus.Size = new Size(23, 17);
+            tstStatus.Text = "OK";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(281, 229);
+            Controls.Add(statusStrip1);
             Controls.Add(numDown);
             Controls.Add(numUp);
-            Controls.Add(numSwipe);
+            Controls.Add(numSweepInterval);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(button1);
+            Controls.Add(btnStart);
             KeyPreview = true;
             Name = "Form1";
             Text = "Wolf Roblox";
-            KeyPress += Form1_KeyPress;
-            ((System.ComponentModel.ISupportInitialize)numSwipe).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numSweepInterval).EndInit();
             ((System.ComponentModel.ISupportInitialize)numUp).EndInit();
             ((System.ComponentModel.ISupportInitialize)numDown).EndInit();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button button1;
-        private System.Windows.Forms.Timer timer1;
+        private Button btnStart;
         private Label label1;
-        private NumericUpDown numSwipe;
+        private NumericUpDown numSweepInterval;
         private Label label2;
         private Label label3;
         private NumericUpDown numUp;
         private NumericUpDown numDown;
+        private System.Windows.Forms.Timer tmrNext;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel tstStatus;
     }
 }

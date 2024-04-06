@@ -26,12 +26,12 @@ namespace SendKeysTest {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("60")]
-        public int SwipeIntervalSeconds {
+        public int SweepIntervalSeconds {
             get {
-                return ((int)(this["SwipeIntervalSeconds"]));
+                return ((int)(this["SweepIntervalSeconds"]));
             }
             set {
-                this["SwipeIntervalSeconds"] = value;
+                this["SweepIntervalSeconds"] = value;
             }
         }
         

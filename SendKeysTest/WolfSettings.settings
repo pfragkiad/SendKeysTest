@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SendKeysTest" GeneratedClassName="WolfSettings">
   <Profiles />
   <Settings>
-    <Setting Name="SwipeIntervalSeconds" Type="System.Int32" Scope="User">
+    <Setting Name="SweepIntervalSeconds" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60</Value>
     </Setting>
     <Setting Name="UpDurationMs" Type="System.Int32" Scope="User">
