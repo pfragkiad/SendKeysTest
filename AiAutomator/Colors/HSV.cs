@@ -1,4 +1,6 @@
-﻿namespace SendKeysTest;
+﻿using System.Drawing;
+
+namespace AiAutomator.Colors;
 
 public readonly struct HSV
 {
@@ -20,7 +22,7 @@ public readonly struct HSV
         double s = S;
         double v = V;
 
-        int hi = (int)(Math.Floor(h * 6)) % 6;
+        int hi = (int)Math.Floor(h * 6) % 6;
         double f = h * 6 - Math.Floor(h * 6);
         double p = v * (1 - s);
         double q = v * (1 - f * s);
@@ -109,6 +111,12 @@ public readonly struct HSV
         v = max;
 
         return new HSV(h, s, v);
+    }
+
+
+    public override string ToString()
+    {
+        return $"H: {H:0}, {S:P1}, {V:P1}";
     }
 
 }

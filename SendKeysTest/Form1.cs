@@ -2,6 +2,9 @@ using System.Runtime.InteropServices;
 using System.Xml;
 using OpenCvSharp;
 
+using AiAutomator;
+using AiAutomator.Colors;
+
 namespace SendKeysTest
 {
     public partial class Form1 : Form
@@ -128,14 +131,6 @@ namespace SendKeysTest
         private void button2_Click(object sender, EventArgs e)
         {
             tmrTracker.Enabled = !tmrTracker.Enabled;
-
-
-
-            //// Do something with the captured bitmap, such as saving it to a file
-            //    capturedBitmap.Save("captured_image.bmp");
-
-
-
         }
 
 
@@ -145,6 +140,13 @@ namespace SendKeysTest
         {
             try
             {
+                Color currentColor = ScreenshotGrabber.GetColorAtCurrentPosition();
+                picColor.BackColor = currentColor;
+                HSV hsv = currentColor.ToHSV();
+                //HSL hsl = currentColor.ToHSL();
+                tstColor.Text = $"HSV: {hsv}";
+
+
 
                 var w = GetOffset();
                 if (!w.HasValue)
@@ -168,8 +170,8 @@ namespace SendKeysTest
 
                 Bitmap bitmap = img.ToBitmap();
 
-                pictureBox1.Image?.Dispose();
-                pictureBox1.Image = bitmap;
+                picWindow.Image?.Dispose();
+                picWindow.Image = bitmap;
 
                 ////get the max x with white in dat
                 //int width = mask.Cols;

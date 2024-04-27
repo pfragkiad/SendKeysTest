@@ -1,4 +1,6 @@
-﻿namespace SendKeysTest;
+﻿using System.Drawing;
+
+namespace AiAutomator.Colors;
 
 public readonly struct HSL
 {
@@ -17,11 +19,9 @@ public readonly struct HSL
 
     public double L { get; }
 
-
-
     public Color ToRgb()
     {
-         if(S == 0) return Color.FromArgb((int)(L * 255), (int)(L * 255), (int)(L * 255));
+        if (S == 0) return Color.FromArgb((int)(L * 255), (int)(L * 255), (int)(L * 255));
 
         double q = L < 0.5 ? L * (1 + S) : L + S - L * S;
         double p = 2 * L - q;
@@ -62,10 +62,6 @@ public readonly struct HSL
         return p;
     }
 
-    public override string ToString()
-    {
-        return $"H: {H}, S: {S}, L: {L}";
-    }
 
     public static HSL FromRgb(Color color)
     {
@@ -122,6 +118,11 @@ public readonly struct HSL
         return new HSL(h, s, l);
     }
 
+
+    public override string ToString()
+    {
+        return $"H: {H:0}, {S:P1}, {L:P1}";
+    }
 
 
 }

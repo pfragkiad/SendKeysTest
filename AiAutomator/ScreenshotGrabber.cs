@@ -3,8 +3,14 @@ using System.Runtime.InteropServices;
 
 namespace SendKeysTest;
 
-public class ScreenshotMaker
+using System.Drawing;
+
+public class ScreenshotGrabber
 {
+
+    [DllImport("user32.dll")]
+    static extern bool GetCursorPos(ref Point lpPoint);
+
 
     [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     private static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
@@ -30,6 +36,8 @@ public class ScreenshotMaker
 
     public static Color GetColorAtCurrentPosition()
     {
-        return GetColorAt(Cursor.Position);
+        Point p =new ();   GetCursorPos(ref p);
+
+        return GetColorAt(p);
     }
 }
