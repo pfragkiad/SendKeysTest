@@ -10,10 +10,10 @@ public class KeyPressLoop
 {
     private CancellationTokenSource? _cancelSource;
 
-
     public bool IsRunning => _cancelSource is not null;
 
     public int DelayBetweenLoopsInMs { get; set; }
+
     public Dictionary<Keys, int>? KeyDurationsInMs { get; private set; }
 
     #region Loop timing
@@ -27,7 +27,6 @@ public class KeyPressLoop
 
     #endregion
 
-
     public async Task<bool> StartMultipleKeysLoop(
         Dictionary<Keys, int> keyDurationsInMs,
         int delayBetweenLoopsInMs,
@@ -39,7 +38,7 @@ public class KeyPressLoop
             KeyDurationsInMs = keyDurationsInMs;
             DelayBetweenLoopsInMs = delayBetweenLoopsInMs;
 
-            _cancelSource = new();
+            _cancelSource = new CancellationTokenSource();
             while (true)
             {
                 LastStartTime = DateTime.Now;

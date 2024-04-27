@@ -39,16 +39,23 @@
             tmrNext = new System.Windows.Forms.Timer(components);
             statusStrip1 = new StatusStrip();
             tstStatus = new ToolStripStatusLabel();
+            button1 = new Button();
+            txtClickNumber = new TextBox();
+            pictureBox1 = new PictureBox();
+            button2 = new Button();
+            tmrTracker = new System.Windows.Forms.Timer(components);
+            button3 = new Button();
+            button4 = new Button();
             ((System.ComponentModel.ISupportInitialize)numSweepInterval).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numUp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDown).BeginInit();
             statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // btnStart
             // 
-            btnStart.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            btnStart.Location = new Point(33, 143);
+            btnStart.Location = new Point(33, 142);
             btnStart.Name = "btnStart";
             btnStart.Size = new Size(207, 46);
             btnStart.TabIndex = 0;
@@ -67,7 +74,6 @@
             // 
             // numSweepInterval
             // 
-            numSweepInterval.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             numSweepInterval.Location = new Point(161, 26);
             numSweepInterval.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numSweepInterval.Minimum = new decimal(new int[] { 5, 0, 0, 0 });
@@ -92,13 +98,12 @@
             label3.AutoSize = true;
             label3.Location = new Point(33, 103);
             label3.Name = "label3";
-            label3.Size = new Size(99, 15);
+            label3.Size = new Size(110, 15);
             label3.TabIndex = 2;
-            label3.Text = "Down interval [s]:";
+            label3.Text = "Down interval [ms]:";
             // 
             // numUp
             // 
-            numUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             numUp.Location = new Point(161, 64);
             numUp.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numUp.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
@@ -111,7 +116,6 @@
             // 
             // numDown
             // 
-            numDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             numDown.Location = new Point(161, 101);
             numDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numDown.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
@@ -129,9 +133,9 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { tstStatus });
-            statusStrip1.Location = new Point(0, 207);
+            statusStrip1.Location = new Point(0, 435);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(281, 22);
+            statusStrip1.Size = new Size(925, 22);
             statusStrip1.TabIndex = 4;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -141,11 +145,79 @@
             tstStatus.Size = new Size(23, 17);
             tstStatus.Text = "OK";
             // 
+            // button1
+            // 
+            button1.Location = new Point(270, 142);
+            button1.Name = "button1";
+            button1.Size = new Size(207, 46);
+            button1.TabIndex = 5;
+            button1.Text = "HACK CLICK!";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // txtClickNumber
+            // 
+            txtClickNumber.Location = new Point(270, 103);
+            txtClickNumber.Name = "txtClickNumber";
+            txtClickNumber.Size = new Size(100, 23);
+            txtClickNumber.TabIndex = 6;
+            txtClickNumber.Text = "1000";
+            txtClickNumber.TextAlign = HorizontalAlignment.Right;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pictureBox1.BorderStyle = BorderStyle.FixedSingle;
+            pictureBox1.Location = new Point(503, 26);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(406, 396);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 7;
+            pictureBox1.TabStop = false;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(402, 314);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 8;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // tmrTracker
+            // 
+            tmrTracker.Tick += TmrTracker_Tick;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(33, 214);
+            button3.Name = "button3";
+            button3.Size = new Size(207, 46);
+            button3.TabIndex = 0;
+            button3.Text = "HACK ROBLOX AI!";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(33, 323);
+            button4.Name = "button4";
+            button4.Size = new Size(207, 46);
+            button4.TabIndex = 0;
+            button4.Text = "STOP AI";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(281, 229);
+            ClientSize = new Size(925, 457);
+            Controls.Add(button2);
+            Controls.Add(pictureBox1);
+            Controls.Add(txtClickNumber);
+            Controls.Add(button1);
             Controls.Add(statusStrip1);
             Controls.Add(numDown);
             Controls.Add(numUp);
@@ -153,6 +225,8 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
+            Controls.Add(button4);
+            Controls.Add(button3);
             Controls.Add(btnStart);
             KeyPreview = true;
             Name = "Form1";
@@ -162,6 +236,7 @@
             ((System.ComponentModel.ISupportInitialize)numDown).EndInit();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -178,5 +253,12 @@
         private System.Windows.Forms.Timer tmrNext;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel tstStatus;
+        private Button button1;
+        private TextBox txtClickNumber;
+        private PictureBox pictureBox1;
+        private Button button2;
+        private System.Windows.Forms.Timer tmrTracker;
+        private Button button3;
+        private Button button4;
     }
 }
