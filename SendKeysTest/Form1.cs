@@ -4,6 +4,7 @@ using OpenCvSharp;
 
 using AiAutomator;
 using AiAutomator.Colors;
+using System.Drawing;
 
 namespace SendKeysTest
 {
@@ -144,7 +145,7 @@ namespace SendKeysTest
                 picColor.BackColor = currentColor;
                 HSV hsv = currentColor.ToHSV();
                 //HSL hsl = currentColor.ToHSL();
-                tstColor.Text = $"HSV: {hsv}";
+                tstColor.Text = $"{currentColor}, HSV [{hsv}]";
 
 
 
@@ -165,13 +166,20 @@ namespace SendKeysTest
 
                 if (_roblox == IntPtr.Zero) return;
 
+                picWindow.Invalidate();
+
                 //using Mat mask = WindowCapture.GetMask(_roblox.Value, lower, upper)!;
-                using Mat img = WindowCapture.GetWindowOpenCvMat(hWnd)!;
+                //using Mat img = WindowCapture.GetWindowOpenCvMat(hWnd)!;
 
-                Bitmap bitmap = img.ToBitmap();
+                //Bitmap bitmap = img.ToBitmap();
 
-                picWindow.Image?.Dispose();
-                picWindow.Image = bitmap;
+                //Bitmap bitmap = WindowCapture.GetWindowBitmap(hWnd)!;
+                //Bitmap img2;
+
+
+                //picWindow.Image?.Dispose();
+                //picWindow.Image = bitmap;
+
 
                 ////get the max x with white in dat
                 //int width = mask.Cols;
@@ -321,7 +329,7 @@ namespace SendKeysTest
                         break;
                     }
                     (int whites, int whites2) = w.Value;
-                 //   Text = $"W: {whites}, W2: {whites2}";//, WIDTH: {width}, HEIGHT: {height}";
+                    //   Text = $"W: {whites}, W2: {whites2}";//, WIDTH: {width}, HEIGHT: {height}";
 
                     if (whites < -3100)
                         currentKey = Keys.W;
@@ -348,6 +356,56 @@ namespace SendKeysTest
         private void button4_Click(object sender, EventArgs e)
         {
             _cancelSource2?.Cancel();
+        }
+
+        private void picWindow_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        List<ColorPoint> _points = [];
+
+        private void picWindow_MouseDown(object sender, MouseEventArgs e)
+        {
+            float w = picWindow.ClientRectangle.Width;
+            float h = picWindow.ClientRectangle.Height;
+
+            var p = e.Location;
+
+            _points.Add(new ColorPoint
+            {
+                X = p.X / w,
+                Y = p.Y / h,
+                Color = ScreenshotGrabber.GetColorAtCurrentPosition()
+            });
+        }
+
+        private void picWindow_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            // Capture the window
+            _roblox ??= WindowCapture.GetWindowByTitle("Roblox");
+
+            nint hWnd = _roblox.Value;
+
+
+            Bitmap bitmap = WindowCapture.GetWindowBitmap(hWnd)!;
+
+            g.DrawImage(bitmap, 0, 0, picWindow.Width, picWindow.Height);
+
+            var cr = picWindow.ClientRectangle;
+
+            using Brush b = new SolidBrush(Color.FromArgb(200, Color.White));
+            foreach (var cp in _points)
+            {
+                PointF p = cp.ToPointF(picWindow.ClientRectangle.Size);
+
+                int width = 16;
+                var r = new RectangleF(p.X - width / 2, p.Y - width / 2, width, width);
+
+                g.FillEllipse(b, r);
+            }
         }
     }
 }

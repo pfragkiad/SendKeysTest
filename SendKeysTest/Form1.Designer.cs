@@ -39,6 +39,7 @@
             tmrNext = new System.Windows.Forms.Timer(components);
             statusStrip1 = new StatusStrip();
             tstStatus = new ToolStripStatusLabel();
+            tstColor = new ToolStripStatusLabel();
             button1 = new Button();
             txtClickNumber = new TextBox();
             picWindow = new PictureBox();
@@ -53,7 +54,6 @@
             tabPage4 = new TabPage();
             label4 = new Label();
             picColor = new PictureBox();
-            tstColor = new ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)numSweepInterval).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numUp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDown).BeginInit();
@@ -147,19 +147,24 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { tstStatus, tstColor });
-            statusStrip1.Location = new Point(0, 343);
+            statusStrip1.Location = new Point(0, 477);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(668, 22);
+            statusStrip1.Size = new Size(591, 22);
             statusStrip1.TabIndex = 4;
             statusStrip1.Text = "statusStrip1";
             // 
             // tstStatus
             // 
             tstStatus.Name = "tstStatus";
-            tstStatus.Size = new Size(622, 17);
+            tstStatus.Size = new Size(576, 17);
             tstStatus.Spring = true;
             tstStatus.Text = "OK";
             tstStatus.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // tstColor
+            // 
+            tstColor.Name = "tstColor";
+            tstColor.Size = new Size(0, 17);
             // 
             // button1
             // 
@@ -187,10 +192,13 @@
             picWindow.Cursor = Cursors.Cross;
             picWindow.Location = new Point(106, 16);
             picWindow.Name = "picWindow";
-            picWindow.Size = new Size(513, 256);
-            picWindow.SizeMode = PictureBoxSizeMode.StretchImage;
+            picWindow.Size = new Size(436, 390);
+            picWindow.SizeMode = PictureBoxSizeMode.CenterImage;
             picWindow.TabIndex = 7;
             picWindow.TabStop = false;
+            picWindow.Paint += picWindow_Paint;
+            picWindow.MouseClick += picWindow_MouseClick;
+            picWindow.MouseDown += picWindow_MouseDown;
             // 
             // btnStartTimer
             // 
@@ -236,7 +244,7 @@
             tabControl1.Location = new Point(12, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(644, 315);
+            tabControl1.Size = new Size(567, 449);
             tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -251,7 +259,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(636, 287);
+            tabPage1.Size = new Size(559, 421);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Classic up/down";
             tabPage1.UseVisualStyleBackColor = true;
@@ -263,7 +271,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(636, 287);
+            tabPage2.Size = new Size(559, 421);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Fast clicker";
             tabPage2.UseVisualStyleBackColor = true;
@@ -274,7 +282,7 @@
             tabPage3.Controls.Add(button4);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(636, 287);
+            tabPage3.Size = new Size(559, 421);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "AI test";
             tabPage3.UseVisualStyleBackColor = true;
@@ -287,7 +295,7 @@
             tabPage4.Controls.Add(btnStartTimer);
             tabPage4.Location = new Point(4, 24);
             tabPage4.Name = "tabPage4";
-            tabPage4.Size = new Size(636, 287);
+            tabPage4.Size = new Size(559, 421);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Bitmap";
             tabPage4.UseVisualStyleBackColor = true;
@@ -310,16 +318,11 @@
             picColor.TabIndex = 9;
             picColor.TabStop = false;
             // 
-            // tstColor
-            // 
-            tstColor.Name = "tstColor";
-            tstColor.Size = new Size(0, 17);
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(668, 365);
+            ClientSize = new Size(591, 499);
             Controls.Add(tabControl1);
             Controls.Add(statusStrip1);
             KeyPreview = true;

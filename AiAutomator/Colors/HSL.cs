@@ -121,7 +121,7 @@ public readonly struct HSL
 
     public override string ToString()
     {
-        return $"H: {H:0}, {S:P1}, {L:P1}";
+        return $"H: {H:0}, {S:P0}, {L:P0}";
     }
 
 

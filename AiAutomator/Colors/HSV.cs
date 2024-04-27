@@ -116,7 +116,7 @@ public readonly struct HSV
 
     public override string ToString()
     {
-        return $"H: {H:0}, {S:P1}, {V:P1}";
+        return $"H: {H:0}, S: {S:P0}, V: {V:P0}";
     }
 
 }
