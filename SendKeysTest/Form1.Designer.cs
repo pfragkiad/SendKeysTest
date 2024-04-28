@@ -52,8 +52,17 @@
             tabPage2 = new TabPage();
             tabPage3 = new TabPage();
             tabPage4 = new TabPage();
+            splitContainer1 = new SplitContainer();
+            picMask = new PictureBox();
+            lblUpper = new Label();
+            lblLower = new Label();
+            groupBox1 = new GroupBox();
+            radioUpper = new RadioButton();
+            radioLower = new RadioButton();
+            radioNone = new RadioButton();
             label4 = new Label();
             picColor = new PictureBox();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)numSweepInterval).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numUp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDown).BeginInit();
@@ -64,6 +73,12 @@
             tabPage2.SuspendLayout();
             tabPage3.SuspendLayout();
             tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picMask).BeginInit();
+            groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picColor).BeginInit();
             SuspendLayout();
             // 
@@ -147,16 +162,16 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { tstStatus, tstColor });
-            statusStrip1.Location = new Point(0, 477);
+            statusStrip1.Location = new Point(0, 632);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(591, 22);
+            statusStrip1.Size = new Size(1062, 22);
             statusStrip1.TabIndex = 4;
             statusStrip1.Text = "statusStrip1";
             // 
             // tstStatus
             // 
             tstStatus.Name = "tstStatus";
-            tstStatus.Size = new Size(576, 17);
+            tstStatus.Size = new Size(1047, 17);
             tstStatus.Spring = true;
             tstStatus.Text = "OK";
             tstStatus.TextAlign = ContentAlignment.MiddleLeft;
@@ -187,12 +202,12 @@
             // 
             // picWindow
             // 
-            picWindow.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             picWindow.BorderStyle = BorderStyle.FixedSingle;
             picWindow.Cursor = Cursors.Cross;
-            picWindow.Location = new Point(106, 16);
+            picWindow.Dock = DockStyle.Fill;
+            picWindow.Location = new Point(0, 0);
             picWindow.Name = "picWindow";
-            picWindow.Size = new Size(436, 390);
+            picWindow.Size = new Size(379, 538);
             picWindow.SizeMode = PictureBoxSizeMode.CenterImage;
             picWindow.TabIndex = 7;
             picWindow.TabStop = false;
@@ -244,7 +259,7 @@
             tabControl1.Location = new Point(12, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(567, 449);
+            tabControl1.Size = new Size(1038, 604);
             tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -259,7 +274,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(559, 421);
+            tabPage1.Size = new Size(1030, 576);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Classic up/down";
             tabPage1.UseVisualStyleBackColor = true;
@@ -271,7 +286,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(559, 421);
+            tabPage2.Size = new Size(1030, 576);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Fast clicker";
             tabPage2.UseVisualStyleBackColor = true;
@@ -282,23 +297,119 @@
             tabPage3.Controls.Add(button4);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(559, 421);
+            tabPage3.Size = new Size(1030, 576);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "AI test";
             tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(button2);
+            tabPage4.Controls.Add(splitContainer1);
+            tabPage4.Controls.Add(lblUpper);
+            tabPage4.Controls.Add(lblLower);
+            tabPage4.Controls.Add(groupBox1);
             tabPage4.Controls.Add(label4);
             tabPage4.Controls.Add(picColor);
-            tabPage4.Controls.Add(picWindow);
             tabPage4.Controls.Add(btnStartTimer);
             tabPage4.Location = new Point(4, 24);
             tabPage4.Name = "tabPage4";
-            tabPage4.Size = new Size(559, 421);
+            tabPage4.Size = new Size(1030, 576);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Bitmap";
             tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            splitContainer1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            splitContainer1.Location = new Point(202, 16);
+            splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(picWindow);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(picMask);
+            splitContainer1.Size = new Size(810, 538);
+            splitContainer1.SplitterDistance = 379;
+            splitContainer1.TabIndex = 14;
+            // 
+            // picMask
+            // 
+            picMask.BorderStyle = BorderStyle.FixedSingle;
+            picMask.Cursor = Cursors.Cross;
+            picMask.Dock = DockStyle.Fill;
+            picMask.Location = new Point(0, 0);
+            picMask.Name = "picMask";
+            picMask.Size = new Size(427, 538);
+            picMask.SizeMode = PictureBoxSizeMode.CenterImage;
+            picMask.TabIndex = 7;
+            picMask.TabStop = false;
+            picMask.Paint += picMask_Paint;
+            // 
+            // lblUpper
+            // 
+            lblUpper.AutoSize = true;
+            lblUpper.Location = new Point(17, 333);
+            lblUpper.Name = "lblUpper";
+            lblUpper.Size = new Size(55, 15);
+            lblUpper.TabIndex = 13;
+            lblUpper.Text = "<Upper>";
+            // 
+            // lblLower
+            // 
+            lblLower.AutoSize = true;
+            lblLower.Location = new Point(16, 303);
+            lblLower.Name = "lblLower";
+            lblLower.Size = new Size(55, 15);
+            lblLower.TabIndex = 13;
+            lblLower.Text = "<Lower>";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(radioUpper);
+            groupBox1.Controls.Add(radioLower);
+            groupBox1.Controls.Add(radioNone);
+            groupBox1.Location = new Point(16, 142);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(87, 146);
+            groupBox1.TabIndex = 12;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Click mode";
+            // 
+            // radioUpper
+            // 
+            radioUpper.AutoSize = true;
+            radioUpper.Location = new Point(11, 104);
+            radioUpper.Name = "radioUpper";
+            radioUpper.Size = new Size(57, 19);
+            radioUpper.TabIndex = 2;
+            radioUpper.Text = "Upper";
+            radioUpper.UseVisualStyleBackColor = true;
+            // 
+            // radioLower
+            // 
+            radioLower.AutoSize = true;
+            radioLower.Location = new Point(11, 68);
+            radioLower.Name = "radioLower";
+            radioLower.Size = new Size(57, 19);
+            radioLower.TabIndex = 1;
+            radioLower.Text = "Lower";
+            radioLower.UseVisualStyleBackColor = true;
+            // 
+            // radioNone
+            // 
+            radioNone.AutoSize = true;
+            radioNone.Checked = true;
+            radioNone.Location = new Point(11, 29);
+            radioNone.Name = "radioNone";
+            radioNone.Size = new Size(54, 19);
+            radioNone.TabIndex = 0;
+            radioNone.TabStop = true;
+            radioNone.Text = "None";
+            radioNone.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -318,11 +429,20 @@
             picColor.TabIndex = 9;
             picColor.TabStop = false;
             // 
+            // button2
+            // 
+            button2.Location = new Point(17, 368);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 15;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(591, 499);
+            ClientSize = new Size(1062, 654);
             Controls.Add(tabControl1);
             Controls.Add(statusStrip1);
             KeyPreview = true;
@@ -342,6 +462,13 @@
             tabPage3.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
             tabPage4.PerformLayout();
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)picMask).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picColor).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -374,5 +501,14 @@
         private PictureBox picColor;
         private Label label4;
         private ToolStripStatusLabel tstColor;
+        private GroupBox groupBox1;
+        private RadioButton radioUpper;
+        private RadioButton radioLower;
+        private RadioButton radioNone;
+        private Label lblUpper;
+        private Label lblLower;
+        private PictureBox picMask;
+        private SplitContainer splitContainer1;
+        private Button button2;
     }
 }

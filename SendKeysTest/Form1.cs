@@ -47,6 +47,16 @@ namespace SendKeysTest
             numSweepInterval.Value = (decimal)WolfSettings.Default.SweepIntervalSeconds;
             numUp.Value = (decimal)WolfSettings.Default.UpDurationMs;
             numDown.Value = (decimal)WolfSettings.Default.DownDurationMs;
+
+            if (!string.IsNullOrWhiteSpace(WolfSettings.Default.LowerColor)
+                && !string.IsNullOrWhiteSpace(WolfSettings.Default.UpperColor))
+            {
+                _lower = ColorPoint.Parse(WolfSettings.Default.LowerColor);
+                _upper = ColorPoint.Parse(WolfSettings.Default.UpperColor);
+
+                lblLower.Text = _lower.Value.Color.ToString();
+                lblUpper.Text = _upper.Value.Color.ToString();
+            }
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -147,26 +157,29 @@ namespace SendKeysTest
                 //HSL hsl = currentColor.ToHSL();
                 tstColor.Text = $"{currentColor}, HSV [{hsv}]";
 
-
-
-                var w = GetOffset();
-                if (!w.HasValue)
-                {
-                    Text = "STOPPED";
-                    return;
-                }
-                (int whites, int whites2) = w.Value;
-                Text = $"whites: {whites}, whites2: {whites2}";//, WIDTH: {width}, HEIGHT: {height}";
-
-                // Capture the window
-                if (_roblox is null)
-                    _roblox = WindowCapture.GetWindowByTitle("Roblox");
-
-                nint hWnd = _roblox.Value;
-
-                if (_roblox == IntPtr.Zero) return;
-
                 picWindow.Invalidate();
+
+
+
+                //var w = GetOffset();
+                //if (!w.HasValue)
+                //{
+                //    Text = "STOPPED";
+                //    return;
+                //}
+                //(int whites, int whites2) = w.Value;
+                //Text = $"whites: {whites}, whites2: {whites2}";//, WIDTH: {width}, HEIGHT: {height}";
+
+                //// Capture the window
+                //if (_roblox is null)
+                //    _roblox = WindowCapture.GetWindowByTitle("Roblox");
+
+                //nint hWnd = _roblox.Value;
+
+                //if (_roblox == IntPtr.Zero) return;
+
+                //picWindow.Invalidate();
+
 
                 //using Mat mask = WindowCapture.GetMask(_roblox.Value, lower, upper)!;
                 //using Mat img = WindowCapture.GetWindowOpenCvMat(hWnd)!;
@@ -365,6 +378,8 @@ namespace SendKeysTest
 
         List<ColorPoint> _points = [];
 
+        ColorPoint? _lower, _upper;
+
         private void picWindow_MouseDown(object sender, MouseEventArgs e)
         {
             float w = picWindow.ClientRectangle.Width;
@@ -372,40 +387,90 @@ namespace SendKeysTest
 
             var p = e.Location;
 
-            _points.Add(new ColorPoint
+            var newPoint = new ColorPoint
             {
                 X = p.X / w,
                 Y = p.Y / h,
                 Color = ScreenshotGrabber.GetColorAtCurrentPosition()
-            });
+            };
+
+            var settings = WolfSettings.Default;
+
+            //if (radioNone.Checked)
+            //    _points.Add(newPoint);
+            if (e.Button ==MouseButtons.Left)
+            {
+                _lower = newPoint;
+                lblLower.Text = newPoint.Color.ToString();
+
+                settings.LowerColor = _lower.Value.ToString();
+                settings.Save();
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                _upper = newPoint;
+                lblUpper.Text = newPoint.Color.ToString();
+
+                settings.UpperColor = _upper.Value.ToString();
+                settings.Save();
+            }
+
+            picWindow.Invalidate();
+
+        }
+            Bitmap _bitmap;
+    private void picMask_Paint(object sender, PaintEventArgs e)
+        {
+
+
+            if (_lower.HasValue && _upper.HasValue && _bitmap is not null)
+            {
+                var mask  = _bitmap.GetMask(_lower.Value.Color, _upper.Value.Color);
+                Graphics g = e.Graphics;
+                g.DrawImage(mask, 0, 0, picWindow.Width, picWindow.Height);
+            }
+
         }
 
         private void picWindow_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
-
-            // Capture the window
             _roblox ??= WindowCapture.GetWindowByTitle("Roblox");
-
             nint hWnd = _roblox.Value;
 
+            if (hWnd == IntPtr.Zero)
+                _bitmap = (Bitmap)Image.FromFile(@"d:\Desktop\robl_noob\win_red.png");
+            else
+                _bitmap = WindowCapture.GetWindowBitmap(hWnd)!;
 
-            Bitmap bitmap = WindowCapture.GetWindowBitmap(hWnd)!;
+            //bitmap = bitmap.GetMask(_lower.Value.Color);
 
-            g.DrawImage(bitmap, 0, 0, picWindow.Width, picWindow.Height);
+            Graphics g = e.Graphics;
+            g.DrawImage(_bitmap, 0, 0, picWindow.Width, picWindow.Height);
 
-            var cr = picWindow.ClientRectangle;
+            picMask.Invalidate();
 
-            using Brush b = new SolidBrush(Color.FromArgb(200, Color.White));
-            foreach (var cp in _points)
-            {
-                PointF p = cp.ToPointF(picWindow.ClientRectangle.Size);
+            //var cr = picWindow.ClientRectangle;
 
-                int width = 16;
-                var r = new RectangleF(p.X - width / 2, p.Y - width / 2, width, width);
+            //using Brush b = new SolidBrush(Color.FromArgb(200, Color.White));
+            //foreach (var cp in _points)
+            //{
+            //    PointF p = cp.ToPointF(picWindow.ClientRectangle.Size);
 
-                g.FillEllipse(b, r);
-            }
+            //    int width = 16;
+            //    var r = new RectangleF(p.X - width / 2, p.Y - width / 2, width, width);
+
+            //    g.FillEllipse(b, r);
+            //}
+
         }
+
+
+
+        private void chkMask_CheckedChanged(object sender, EventArgs e)
+        {
+            picWindow.Invalidate();
+        }
+
+    
     }
 }

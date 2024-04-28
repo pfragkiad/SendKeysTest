@@ -58,5 +58,29 @@ namespace SendKeysTest {
                 this["DownDurationMs"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LowerColor {
+            get {
+                return ((string)(this["LowerColor"]));
+            }
+            set {
+                this["LowerColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UpperColor {
+            get {
+                return ((string)(this["UpperColor"]));
+            }
+            set {
+                this["UpperColor"] = value;
+            }
+        }
     }
 }

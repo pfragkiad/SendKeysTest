@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using OpenCvSharp;
+using System.Drawing;
 
 namespace AiAutomator.Colors;
 
@@ -36,6 +37,7 @@ public readonly struct HSL
         return Color.FromArgb((int)(r * 255), (int)(g * 255), (int)(b * 255));
     }
 
+    public Scalar ToCvScalar() => new Scalar(H/2, S*255, L*255);
 
     private static double HueToRgb(double p, double q, double t)
     {
