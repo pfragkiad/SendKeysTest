@@ -5,6 +5,7 @@ using OpenCvSharp;
 using AiAutomator;
 using AiAutomator.Colors;
 using System.Drawing;
+using System.Text;
 
 namespace SendKeysTest
 {
@@ -120,19 +121,63 @@ namespace SendKeysTest
         {
             var roblox = KeyPresser.GetWindowByCaption("Roblox");
 
+            tstStatus.Text = "Started clicking...";
+
+
+            int mean = int.Parse(txtInterval.Text);
+            int min = (int)(mean * 0.8);
+            int max = (int)(mean * 1.2);
 
             await Task.Delay(5000);
 
+            System.Drawing.Point? startPosition = null;
+
+            bool isEPressed = false;
+
             for (int i = 0; i < int.Parse(txtClickNumber.Text); i++)
             {
-                await Task.Delay(Random.Shared.Next(60, 120));
-                KeyPresser.LeftClick(roblox);
+                if (chkExitAtNextClick.Checked)
+                    break;
 
+                if (chkWithE.Checked)
+                {
+                    KeyPresser.SendKeyDown(Keys.E);
+                    isEPressed = true;
+                }
+                else if(isEPressed)
+                {
+                    KeyPresser.SendKeyDown(Keys.E);
+                    isEPressed = false;
+                }
+
+                await Task.Delay(Random.Shared.Next(min, max));
+
+                bool keepStartPoint = chkKeepStartPoint.Checked;
+                if (keepStartPoint)
+                {//store the coordinates only AFTER the first delay (before the first click)
+                    if (startPosition is null)
+                        startPosition = Cursor.Position;
+                    else
+                        Cursor.Position = startPosition!.Value;
+                }
+
+                if (keepStartPoint)
+                {
+                    await KeyPresser.FocusWindow(roblox);
+                    KeyPresser.LeftClick(roblox, startPosition!.Value);
+                    await Task.Delay(100);
+                    KeyPresser.LeftClick(roblox, startPosition!.Value);
+                }
+                else
+                {
+                    await KeyPresser.FocusWindow(roblox);
+                    KeyPresser.LeftClick(roblox);
+                }
                 //
 
                 //  await Task.Delay(100);
                 //  KeyPresser.SendMouseUp(roblox);
-                if (i % 100 == 0)
+                if (i % 10 == 0)
                     tstStatus.Text = i.ToString();
             }
 
@@ -156,6 +201,9 @@ namespace SendKeysTest
                 HSV hsv = currentColor.ToHSV();
                 //HSL hsl = currentColor.ToHSL();
                 tstColor.Text = $"{currentColor}, HSV [{hsv}]";
+
+                tstStatus.Text = $"{Cursor.Position}";
+
 
                 picWindow.Invalidate();
 
@@ -398,7 +446,7 @@ namespace SendKeysTest
 
             //if (radioNone.Checked)
             //    _points.Add(newPoint);
-            if (e.Button ==MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 _lower = newPoint;
                 lblLower.Text = newPoint.Color.ToString();
@@ -418,14 +466,14 @@ namespace SendKeysTest
             picWindow.Invalidate();
 
         }
-            Bitmap _bitmap;
-    private void picMask_Paint(object sender, PaintEventArgs e)
+        Bitmap _bitmap;
+        private void picMask_Paint(object sender, PaintEventArgs e)
         {
 
 
             if (_lower.HasValue && _upper.HasValue && _bitmap is not null)
             {
-                var mask  = _bitmap.GetMask(_lower.Value.Color, _upper.Value.Color);
+                var mask = _bitmap.GetMask(_lower.Value.Color, _upper.Value.Color);
                 Graphics g = e.Graphics;
                 g.DrawImage(mask, 0, 0, picWindow.Width, picWindow.Height);
             }
@@ -471,6 +519,48 @@ namespace SendKeysTest
             picWindow.Invalidate();
         }
 
-    
+        ColorPoint? clickColor;
+
+        private void picWindow_MouseMove(object sender, MouseEventArgs e)
+        {
+            var p = e.Location;
+
+            float w = picWindow.ClientRectangle.Width;
+            float h = picWindow.ClientRectangle.Height;
+
+            float x = p.X / w;
+            float y = p.Y / h;
+
+            clickColor = new ColorPoint
+            {
+                X = x,
+                Y = y,
+                Color = ScreenshotGrabber.GetColorAtCurrentPosition()
+            };
+
+            lblCoords.Text = $"X: {x:0.00}, Y: {y:0.00}";
+        }
+
+
+        private async void button2_Click_1(object sender, EventArgs e)
+        {
+            int w = _bitmap.Width;
+            int h = _bitmap.Height;
+
+            _roblox ??= WindowCapture.GetWindowByTitle("Roblox");
+
+            KeyPresser.LeftClick(_roblox.Value, new System.Drawing.Point(w / 2, h / 2));
+            await Task.Delay(100);
+            KeyPresser.LeftClick(_roblox.Value, new System.Drawing.Point(w / 2, h / 2));
+        }
+
+        private async void button5_Click(object sender, EventArgs e)
+        {
+            _roblox ??= WindowCapture.GetWindowByTitle("Roblox");
+
+            //2685, 6040
+            //await KeyPresser.RightClick(_roblox.Value, new System.Drawing.Point(2685, 600));
+            KeyPresser.DragRightClick(_roblox.Value, 2700, 674, 2800, 672);
+        }
     }
 }

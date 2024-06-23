@@ -50,10 +50,18 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
+            chkExitAtNextClick = new CheckBox();
+            chkKeepStartPoint = new CheckBox();
+            label6 = new Label();
+            label5 = new Label();
+            button5 = new Button();
+            txtInterval = new TextBox();
             tabPage3 = new TabPage();
             tabPage4 = new TabPage();
+            button2 = new Button();
             splitContainer1 = new SplitContainer();
             picMask = new PictureBox();
+            lblCoords = new Label();
             lblUpper = new Label();
             lblLower = new Label();
             groupBox1 = new GroupBox();
@@ -62,7 +70,7 @@
             radioNone = new RadioButton();
             label4 = new Label();
             picColor = new PictureBox();
-            button2 = new Button();
+            chkWithE = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)numSweepInterval).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numUp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDown).BeginInit();
@@ -183,7 +191,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(21, 66);
+            button1.Location = new Point(21, 105);
             button1.Name = "button1";
             button1.Size = new Size(207, 46);
             button1.TabIndex = 5;
@@ -193,11 +201,11 @@
             // 
             // txtClickNumber
             // 
-            txtClickNumber.Location = new Point(21, 27);
+            txtClickNumber.Location = new Point(128, 29);
             txtClickNumber.Name = "txtClickNumber";
             txtClickNumber.Size = new Size(100, 23);
             txtClickNumber.TabIndex = 6;
-            txtClickNumber.Text = "1000";
+            txtClickNumber.Text = "1000000";
             txtClickNumber.TextAlign = HorizontalAlignment.Right;
             // 
             // picWindow
@@ -214,6 +222,7 @@
             picWindow.Paint += picWindow_Paint;
             picWindow.MouseClick += picWindow_MouseClick;
             picWindow.MouseDown += picWindow_MouseDown;
+            picWindow.MouseMove += picWindow_MouseMove;
             // 
             // btnStartTimer
             // 
@@ -281,7 +290,14 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(chkWithE);
+            tabPage2.Controls.Add(chkExitAtNextClick);
+            tabPage2.Controls.Add(chkKeepStartPoint);
+            tabPage2.Controls.Add(label6);
+            tabPage2.Controls.Add(label5);
+            tabPage2.Controls.Add(button5);
             tabPage2.Controls.Add(button1);
+            tabPage2.Controls.Add(txtInterval);
             tabPage2.Controls.Add(txtClickNumber);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
@@ -290,6 +306,65 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Fast clicker";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // chkExitAtNextClick
+            // 
+            chkExitAtNextClick.AutoSize = true;
+            chkExitAtNextClick.Location = new Point(21, 204);
+            chkExitAtNextClick.Name = "chkExitAtNextClick";
+            chkExitAtNextClick.Size = new Size(111, 19);
+            chkExitAtNextClick.TabIndex = 9;
+            chkExitAtNextClick.Text = "Exit at next click";
+            chkExitAtNextClick.UseVisualStyleBackColor = true;
+            // 
+            // chkKeepStartPoint
+            // 
+            chkKeepStartPoint.AutoSize = true;
+            chkKeepStartPoint.Checked = true;
+            chkKeepStartPoint.CheckState = CheckState.Checked;
+            chkKeepStartPoint.Location = new Point(21, 168);
+            chkKeepStartPoint.Name = "chkKeepStartPoint";
+            chkKeepStartPoint.Size = new Size(109, 19);
+            chkKeepStartPoint.TabIndex = 8;
+            chkKeepStartPoint.Text = "Keep start point";
+            chkKeepStartPoint.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(21, 72);
+            label6.Name = "label6";
+            label6.Size = new Size(76, 15);
+            label6.TabIndex = 7;
+            label6.Text = "Interval [ms]:";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(21, 32);
+            label5.Name = "label5";
+            label5.Size = new Size(43, 15);
+            label5.TabIndex = 7;
+            label5.Text = "Count:";
+            // 
+            // button5
+            // 
+            button5.Location = new Point(258, 105);
+            button5.Name = "button5";
+            button5.Size = new Size(207, 46);
+            button5.TabIndex = 5;
+            button5.Text = "HACK CLICK!";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
+            // txtInterval
+            // 
+            txtInterval.Location = new Point(128, 69);
+            txtInterval.Name = "txtInterval";
+            txtInterval.Size = new Size(100, 23);
+            txtInterval.TabIndex = 6;
+            txtInterval.Text = "20000";
+            txtInterval.TextAlign = HorizontalAlignment.Right;
             // 
             // tabPage3
             // 
@@ -306,6 +381,7 @@
             // 
             tabPage4.Controls.Add(button2);
             tabPage4.Controls.Add(splitContainer1);
+            tabPage4.Controls.Add(lblCoords);
             tabPage4.Controls.Add(lblUpper);
             tabPage4.Controls.Add(lblLower);
             tabPage4.Controls.Add(groupBox1);
@@ -318,6 +394,16 @@
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Bitmap";
             tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(17, 368);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 15;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click_1;
             // 
             // splitContainer1
             // 
@@ -348,6 +434,15 @@
             picMask.TabIndex = 7;
             picMask.TabStop = false;
             picMask.Paint += picMask_Paint;
+            // 
+            // lblCoords
+            // 
+            lblCoords.AutoSize = true;
+            lblCoords.Location = new Point(17, 409);
+            lblCoords.Name = "lblCoords";
+            lblCoords.Size = new Size(61, 15);
+            lblCoords.TabIndex = 13;
+            lblCoords.Text = "<Coords>";
             // 
             // lblUpper
             // 
@@ -429,14 +524,15 @@
             picColor.TabIndex = 9;
             picColor.TabStop = false;
             // 
-            // button2
+            // chkWithE
             // 
-            button2.Location = new Point(17, 368);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 15;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
+            chkWithE.AutoSize = true;
+            chkWithE.Location = new Point(21, 249);
+            chkWithE.Name = "chkWithE";
+            chkWithE.Size = new Size(60, 19);
+            chkWithE.TabIndex = 10;
+            chkWithE.Text = "With E";
+            chkWithE.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -501,14 +597,22 @@
         private PictureBox picColor;
         private Label label4;
         private ToolStripStatusLabel tstColor;
-        private GroupBox groupBox1;
-        private RadioButton radioUpper;
-        private RadioButton radioLower;
-        private RadioButton radioNone;
         private Label lblUpper;
         private Label lblLower;
         private PictureBox picMask;
         private SplitContainer splitContainer1;
         private Button button2;
+        private GroupBox groupBox1;
+        private RadioButton radioUpper;
+        private RadioButton radioLower;
+        private RadioButton radioNone;
+        private Label lblCoords;
+        private Label label5;
+        private Label label6;
+        private TextBox txtInterval;
+        private Button button5;
+        private CheckBox chkKeepStartPoint;
+        private CheckBox chkExitAtNextClick;
+        private CheckBox chkWithE;
     }
 }
