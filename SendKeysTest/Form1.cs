@@ -117,9 +117,11 @@ namespace SendKeysTest
 
         #endregion
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void btnStartAutoClick_Click(object sender, EventArgs e)
         {
             var roblox = KeyPresser.GetWindowByCaption("Roblox");
+
+            btnStartAutoClick.Enabled = false;
 
             tstStatus.Text = "Started clicking...";
 
@@ -134,17 +136,24 @@ namespace SendKeysTest
 
             bool isEPressed = false;
 
+            tstStatus.Text = "Running...";
+
+
             for (int i = 0; i < int.Parse(txtClickNumber.Text); i++)
             {
                 if (chkExitAtNextClick.Checked)
+                {
+                    btnStartAutoClick.Enabled = true;
+                    chkExitAtNextClick.Checked = false;
                     break;
+                }
 
                 if (chkWithE.Checked)
                 {
                     KeyPresser.SendKeyDown(Keys.E);
                     isEPressed = true;
                 }
-                else if(isEPressed)
+                else if (isEPressed)
                 {
                     KeyPresser.SendKeyDown(Keys.E);
                     isEPressed = false;
@@ -177,8 +186,17 @@ namespace SendKeysTest
 
                 //  await Task.Delay(100);
                 //  KeyPresser.SendMouseUp(roblox);
+
+                if (chkInfinite.Checked)
+                {
+                    //make loop infinite
+                    i = 0;
+                    continue;
+                }
+
                 if (i % 10 == 0)
                     tstStatus.Text = i.ToString();
+
             }
 
             tstStatus.Text = "Stopped";

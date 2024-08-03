@@ -40,7 +40,7 @@
             statusStrip1 = new StatusStrip();
             tstStatus = new ToolStripStatusLabel();
             tstColor = new ToolStripStatusLabel();
-            button1 = new Button();
+            btnStartAutoClick = new Button();
             txtClickNumber = new TextBox();
             picWindow = new PictureBox();
             btnStartTimer = new Button();
@@ -48,14 +48,14 @@
             button3 = new Button();
             button4 = new Button();
             tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
             tabPage2 = new TabPage();
+            chkWithE = new CheckBox();
             chkExitAtNextClick = new CheckBox();
             chkKeepStartPoint = new CheckBox();
             label6 = new Label();
             label5 = new Label();
-            button5 = new Button();
             txtInterval = new TextBox();
+            tabPage1 = new TabPage();
             tabPage3 = new TabPage();
             tabPage4 = new TabPage();
             button2 = new Button();
@@ -70,15 +70,15 @@
             radioNone = new RadioButton();
             label4 = new Label();
             picColor = new PictureBox();
-            chkWithE = new CheckBox();
+            chkInfinite = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)numSweepInterval).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numUp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDown).BeginInit();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picWindow).BeginInit();
             tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            tabPage1.SuspendLayout();
             tabPage3.SuspendLayout();
             tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -189,15 +189,15 @@
             tstColor.Name = "tstColor";
             tstColor.Size = new Size(0, 17);
             // 
-            // button1
+            // btnStartAutoClick
             // 
-            button1.Location = new Point(21, 105);
-            button1.Name = "button1";
-            button1.Size = new Size(207, 46);
-            button1.TabIndex = 5;
-            button1.Text = "HACK CLICK!";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnStartAutoClick.Location = new Point(21, 105);
+            btnStartAutoClick.Name = "btnStartAutoClick";
+            btnStartAutoClick.Size = new Size(207, 46);
+            btnStartAutoClick.TabIndex = 5;
+            btnStartAutoClick.Text = "HACK CLICK!";
+            btnStartAutoClick.UseVisualStyleBackColor = true;
+            btnStartAutoClick.Click += btnStartAutoClick_Click;
             // 
             // txtClickNumber
             // 
@@ -261,8 +261,8 @@
             // tabControl1
             // 
             tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Location = new Point(12, 12);
@@ -271,32 +271,15 @@
             tabControl1.Size = new Size(1038, 604);
             tabControl1.TabIndex = 9;
             // 
-            // tabPage1
-            // 
-            tabPage1.Controls.Add(label1);
-            tabPage1.Controls.Add(btnStart);
-            tabPage1.Controls.Add(label2);
-            tabPage1.Controls.Add(label3);
-            tabPage1.Controls.Add(numSweepInterval);
-            tabPage1.Controls.Add(numUp);
-            tabPage1.Controls.Add(numDown);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1030, 576);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "Classic up/down";
-            tabPage1.UseVisualStyleBackColor = true;
-            // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(chkInfinite);
             tabPage2.Controls.Add(chkWithE);
             tabPage2.Controls.Add(chkExitAtNextClick);
             tabPage2.Controls.Add(chkKeepStartPoint);
             tabPage2.Controls.Add(label6);
             tabPage2.Controls.Add(label5);
-            tabPage2.Controls.Add(button5);
-            tabPage2.Controls.Add(button1);
+            tabPage2.Controls.Add(btnStartAutoClick);
             tabPage2.Controls.Add(txtInterval);
             tabPage2.Controls.Add(txtClickNumber);
             tabPage2.Location = new Point(4, 24);
@@ -306,6 +289,16 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Fast clicker";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // chkWithE
+            // 
+            chkWithE.AutoSize = true;
+            chkWithE.Location = new Point(21, 239);
+            chkWithE.Name = "chkWithE";
+            chkWithE.Size = new Size(60, 19);
+            chkWithE.TabIndex = 10;
+            chkWithE.Text = "With E";
+            chkWithE.UseVisualStyleBackColor = true;
             // 
             // chkExitAtNextClick
             // 
@@ -320,8 +313,6 @@
             // chkKeepStartPoint
             // 
             chkKeepStartPoint.AutoSize = true;
-            chkKeepStartPoint.Checked = true;
-            chkKeepStartPoint.CheckState = CheckState.Checked;
             chkKeepStartPoint.Location = new Point(21, 168);
             chkKeepStartPoint.Name = "chkKeepStartPoint";
             chkKeepStartPoint.Size = new Size(109, 19);
@@ -347,16 +338,6 @@
             label5.TabIndex = 7;
             label5.Text = "Count:";
             // 
-            // button5
-            // 
-            button5.Location = new Point(258, 105);
-            button5.Name = "button5";
-            button5.Size = new Size(207, 46);
-            button5.TabIndex = 5;
-            button5.Text = "HACK CLICK!";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
-            // 
             // txtInterval
             // 
             txtInterval.Location = new Point(128, 69);
@@ -365,6 +346,23 @@
             txtInterval.TabIndex = 6;
             txtInterval.Text = "20000";
             txtInterval.TextAlign = HorizontalAlignment.Right;
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(label1);
+            tabPage1.Controls.Add(btnStart);
+            tabPage1.Controls.Add(label2);
+            tabPage1.Controls.Add(label3);
+            tabPage1.Controls.Add(numSweepInterval);
+            tabPage1.Controls.Add(numUp);
+            tabPage1.Controls.Add(numDown);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(1030, 576);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Classic up/down";
+            tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -524,15 +522,17 @@
             picColor.TabIndex = 9;
             picColor.TabStop = false;
             // 
-            // chkWithE
+            // chkInfinite
             // 
-            chkWithE.AutoSize = true;
-            chkWithE.Location = new Point(21, 249);
-            chkWithE.Name = "chkWithE";
-            chkWithE.Size = new Size(60, 19);
-            chkWithE.TabIndex = 10;
-            chkWithE.Text = "With E";
-            chkWithE.UseVisualStyleBackColor = true;
+            chkInfinite.AutoSize = true;
+            chkInfinite.Checked = true;
+            chkInfinite.CheckState = CheckState.Checked;
+            chkInfinite.Location = new Point(247, 31);
+            chkInfinite.Name = "chkInfinite";
+            chkInfinite.Size = new Size(63, 19);
+            chkInfinite.TabIndex = 11;
+            chkInfinite.Text = "Infinite";
+            chkInfinite.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -551,10 +551,10 @@
             statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picWindow).EndInit();
             tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
-            tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
             tabPage3.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
             tabPage4.PerformLayout();
@@ -582,7 +582,7 @@
         private System.Windows.Forms.Timer tmrNext;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel tstStatus;
-        private Button button1;
+        private Button btnStartAutoClick;
         private TextBox txtClickNumber;
         private PictureBox picWindow;
         private Button btnStartTimer;
@@ -610,9 +610,9 @@
         private Label label5;
         private Label label6;
         private TextBox txtInterval;
-        private Button button5;
         private CheckBox chkKeepStartPoint;
         private CheckBox chkExitAtNextClick;
         private CheckBox chkWithE;
+        private CheckBox chkInfinite;
     }
 }
